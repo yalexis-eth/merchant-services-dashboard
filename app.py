@@ -999,5 +999,6 @@ def export_csv(n_clicks, filtered_data, selected_month):
     return None
 
 if __name__ == '__main__':
-    server = app.server
-    app.run_server(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 8050)))
+    app.run(debug=True)
+else:
+    app.run_server(host='0.0.0.0', port=int(os.environ.get('PORT', 8050)))
