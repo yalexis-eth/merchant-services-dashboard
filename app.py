@@ -198,7 +198,7 @@ def clean_data(df):
     """Clean the dataframe by converting columns to numeric and filtering out total rows."""
     for col in volume_columns + ['Agent Net']:
         if col in df.columns:
-            df[col] = df[col].replace('[\$,]', '', regex=True).astype(float)
+            df[col] = df[col].replace(r'[\$,]', '', regex=True).astype(float)
     df['Total Volume'] = df[volume_columns].sum(axis=1)
     df['Gross Margin %'] = df.apply(
         lambda row: (row['Agent Net'] / row['Total Volume']) * 100 if row['Total Volume'] > 0 else float('nan'),
@@ -997,8 +997,6 @@ def export_csv(n_clicks, filtered_data, selected_month):
         df = pd.DataFrame(filtered_data)
         return dcc.send_data_frame(df.to_csv, f"gross_margin_{selected_month}_comparison.csv", index=False)
     return None
-
+    
 if __name__ == '__main__':
-    app.run(debug=True)
-else:
-    app.run_server(host='0.0.0.0', port=int(os.environ.get('PORT', 8050)))
+    app.run_server(debug=False, host='0.0.0.0', port=int(os.environ.get('PORT', 8050)))
